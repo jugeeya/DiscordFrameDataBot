@@ -29,7 +29,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         args = args.splice(1);
 
         switch(cmd) {
-            // !ping
             case 'frames':
                 var charName = args[0];
                 var moveName = "";
@@ -78,9 +77,33 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 });
                 break;
             case 'helpframes':
+                var output = "Type \"!frames characterName moveName\" to get its frame data. Case insenstive.\n";
+                output += "If a character has multiple words, combine them together;\n";
+                output += "For example: Zero Suit Samus -> ZeroSuitSamus";
+
                 bot.sendMessage({
                     to: channelID,
-                    message: "Type \"!frames characterName moveName\" to get its frame data."
+                    message: output
+                });
+                break;
+            case 'bracket':
+                var today = new Date();
+                var tourneyDays = [];
+                var tourneyBeginIndex = 33;
+                var tourneyIndex = tourneyBeginIndex;
+                var endOfQuarter = new Date('2017-12-15');
+                for (var d = new Date('2017-10-6'); d <= endOfQuarter; d.setDate(d.getDate() + 7)) {
+                    tourneyDays.push(new Date(d));
+                }
+                var output = "no tourney";
+                for (var i = 0; today > tourneyDays[i]; i++)
+                {
+                    tourneyIndex++;
+                }
+                output = util.format("http://challonge.com/smashden%dsingles", tourneyIndex);
+                bot.sendMessage({
+                    to: channelID,
+                    message: output
                 });
                 break;
             // Just add any case commands if you want to..
